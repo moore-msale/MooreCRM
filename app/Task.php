@@ -4,11 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-
 class Task extends Model
 {
-    public function status()
-    {
-        return $this->belongsTo(Status::class);
-    }
+    protected $table = 'tasks';
+
+    protected $fillable = ['name', 'time', 'status', 'end_date', 'user_id', 'desc'];
+
 }
