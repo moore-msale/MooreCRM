@@ -14,6 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::resource('task', 'TaskController');
+
 
 
 Route::group(['prefix' => 'admin'], function () {
