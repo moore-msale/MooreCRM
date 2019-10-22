@@ -20,21 +20,20 @@ class TaskApiController extends BaseController
     {
         $input = $request->all();
 
-
         $validator = Validator::make($input, [
             'name' => 'required',
             'time' => 'required',
             'status' => 'required',
+            'priority' => 'required',
+            'day' => 'required',
             'end_date' => 'required',
             'user_id' => 'required',
             'desc' => 'required',
         ]);
 
-
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
-
 
         $task = Task::create($input);
 
@@ -53,34 +52,35 @@ class TaskApiController extends BaseController
         return $this->sendResponse($task->toArray(), 'Task retrieved successfully.');
     }
 
-    public function update(Request $request, Task $task)
+    public function update(Request $request, $id)
     {
         $input = $request->all();
-
+        $task = Task::find($id);
 
         $validator = Validator::make($input, [
             'name' => 'required',
             'time' => 'required',
             'status' => 'required',
+            'priority' => 'required',
+            'day' => 'required',
             'end_date' => 'required',
             'user_id' => 'required',
             'desc' => 'required',
         ]);
 
-
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-
         $task->name = $input['name'];
         $task->time = $input['time'];
         $task->status = $input['status'];
+        $task->priority = $input['priority'];
+        $task->day = $input['day'];
         $task->end_date = $input['end_date'];
         $task->user_id = $input['user_id'];
         $task->desc = $input['desc'];
         $task->save();
-
 
         return $this->sendResponse($task->toArray(), 'Task updated successfully.');
     }
