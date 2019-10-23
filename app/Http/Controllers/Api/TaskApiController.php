@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseController as BaseController;
 use App\Task;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -19,6 +20,8 @@ class TaskApiController extends BaseController
     public function store(Request $request)
     {
         $input = $request->all();
+
+        $client = new Client();
 
         $validator = Validator::make($input, [
             'name' => 'required',
@@ -37,7 +40,10 @@ class TaskApiController extends BaseController
         }
 
         $task = Task::create($input);
-
+        $name = $input['name'];
+        $url = "https://api.telegram.org/bot925882756:AAEt3HsNT_PWsK_bYFzhFqXZUaq34Ayiz0c/sendMessage?chat_id=160868894&text=\"$name\"";
+        $response = $client->request('POST', $url);
+        $code = $response->getStatusCode();
 
         return $this->sendResponse($task->toArray(), 'Task created successfully.');
     }
