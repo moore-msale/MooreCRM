@@ -18,7 +18,7 @@ class BaseController extends Controller
     {
         $response = [
             'success' => true,
-            'data' => $result,
+            'tasks' => $result,
             'message' => $message,
         ];
 

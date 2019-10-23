@@ -29,6 +29,7 @@ class TaskApiController extends BaseController
             'end_date' => 'required',
             'user_id' => 'required',
             'desc' => 'required',
+            'timer' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -66,6 +67,7 @@ class TaskApiController extends BaseController
             'end_date' => 'required',
             'user_id' => 'required',
             'desc' => 'required',
+            'timer' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -80,6 +82,7 @@ class TaskApiController extends BaseController
         $task->end_date = $input['end_date'];
         $task->user_id = $input['user_id'];
         $task->desc = $input['desc'];
+        $task->timer = $input['timer'];
         $task->save();
 
         return $this->sendResponse($task->toArray(), 'Task updated successfully.');
