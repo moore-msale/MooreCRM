@@ -143,6 +143,7 @@ class TaskApiController extends BaseController
             return $this->sendError('Task Error.', 'Task not found');
         }
         $task->status = 0;
+        $task->comment = $request->input('comment');
         $task->timer = $request->input('timer');
         $task->finished = 1;
         $task->save();
