@@ -26,4 +26,5 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('user', 'UserController@getAuthenticatedUser');
     Route::get('/v1/users', 'Api\HomeApiController@getUsers');
     Route::get('/v1/get/tasks', 'Api\HomeApiController@getUserTasks');
+    Route::get('/v1/get/finished/tasks', 'Api\HomeApiController@getFinishedTasks');
 });
