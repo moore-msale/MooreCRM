@@ -8,6 +8,6 @@ class Task extends Model
 {
     protected $table = 'tasks';
 
-    protected $fillable = ['name', 'time', 'status', 'priority', 'day', 'end_date', 'user_id', 'desc', 'finished', 'timer'];
+    protected $fillable = ['name', 'time', 'status', 'priority', 'day', 'end_date', 'user_id', 'desc', 'finished', 'timer', 'comment'];
 
 }
