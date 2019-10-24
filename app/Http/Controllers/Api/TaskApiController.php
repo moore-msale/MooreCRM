@@ -66,7 +66,7 @@ class TaskApiController extends BaseController
             $options);
         $data['message'] = 'task created';
         try {
-            $pusher->trigger('moore-channel', 'moore-event', $data);
+            $pusher->trigger('my-channel', 'my-event', $data);
         } catch (PusherException $e) {
             Log::debug("error push");
         }
