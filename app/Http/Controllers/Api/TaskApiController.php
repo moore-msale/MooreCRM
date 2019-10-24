@@ -46,11 +46,13 @@ class TaskApiController extends BaseController
         }
 
         $task = Task::create($input);
+
         $name = $input['name'];
         $url = "https://api.telegram.org/bot925882756:AAEt3HsNT_PWsK_bYFzhFqXZUaq34Ayiz0c/sendMessage?chat_id=160868894&text=\"$name\"";
         $response = $client->request('POST', $url);
         $code = $response->getStatusCode();
         $this->sendPusher();
+
         return $this->sendResponse($task->toArray(), 'Task created successfully.');
     }
 
