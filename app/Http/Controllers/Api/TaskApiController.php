@@ -8,11 +8,11 @@ use App\Http\Controllers\Api\BaseController as BaseController;
 use App\Task;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Pusher\Pusher;
 use Pusher\PusherException;
 use Validator;
+use JWTAuth;
 
 
 class TaskApiController extends BaseController
@@ -142,6 +142,7 @@ class TaskApiController extends BaseController
         if (!$task) {
             return $this->sendError('Task Error.', 'Task not found');
         }
+        $task->status = 0;
         $task->timer = $request->input('timer');
         $task->finished = 1;
         $task->save();
