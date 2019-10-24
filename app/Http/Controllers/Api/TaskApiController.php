@@ -3,11 +3,17 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\AddedTask;
 use App\Http\Controllers\Api\BaseController as BaseController;
 use App\Task;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
+use Pusher\Pusher;
+use Pusher\PusherException;
 use Validator;
+
 
 class TaskApiController extends BaseController
 {
@@ -44,8 +50,26 @@ class TaskApiController extends BaseController
         $url = "https://api.telegram.org/bot925882756:AAEt3HsNT_PWsK_bYFzhFqXZUaq34Ayiz0c/sendMessage?chat_id=160868894&text=\"$name\"";
         $response = $client->request('POST', $url);
         $code = $response->getStatusCode();
-
+        $this->sendPusher();
         return $this->sendResponse($task->toArray(), 'Task created successfully.');
+    }
+
+    public function sendPusher()
+    {
+        $options = array(
+            'cluster' => env('PUSHER_APP_CLUSTER'),
+            'useTLS' => true
+        );
+        $pusher = new Pusher(env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            $options);
+        $data['message'] = 'task created';
+        try {
+            $pusher->trigger('moore-channel', 'moore-event', $data);
+        } catch (PusherException $e) {
+            Log::debug("error push");
+        }
     }
 
     public function show($id)
@@ -103,12 +127,25 @@ class TaskApiController extends BaseController
     public function updateTimer(Request $request)
     {
         $task = Task::find($request->input('task_id'));
-        if (!$task){
+        if (!$task) {
             return $this->sendError('Task Error.', 'Task not found');
         }
         $task->timer = $request->input('timer');
         $task->save();
 
         return $this->sendResponse($task->toArray(), 'Task updated successfully.');
+    }
+
+    public function setFinished(Request $request)
+    {
+        $task = Task::find($request->input('task_id'));
+        if (!$task) {
+            return $this->sendError('Task Error.', 'Task not found');
+        }
+        $task->timer = $request->input('timer');
+        $task->finished = 1;
+        $task->save();
+
+        return $this->sendResponse($task->toArray(), 'Task finished updated successfully.');
     }
 }
