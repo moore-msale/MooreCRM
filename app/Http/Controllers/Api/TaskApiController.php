@@ -124,6 +124,7 @@ class TaskApiController extends BaseController
         if (!$task) {
             return $this->sendError('Task Error.', 'Task not found');
         }
+        $task->status = 1;
         $task->timer = $request->input('timer');
         $task->save();
 
