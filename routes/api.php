@@ -17,6 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::resource('v1/tasks', 'Api\TaskApiController');
+Route::post('v1/tasks/delete', 'Api\TaskApiController@delete');
 Route::post('v1/update/timer', 'Api\TaskApiController@updateTimer');
 Route::post('v1/task/finished', 'Api\TaskApiController@setFinished');
 Route::post('register', 'UserController@register');

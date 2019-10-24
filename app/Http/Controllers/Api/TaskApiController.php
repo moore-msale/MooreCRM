@@ -118,6 +118,16 @@ class TaskApiController extends BaseController
         return $this->sendResponse($task->toArray(), 'Task deleted successfully.');
     }
 
+    public function delete(Request $request)
+    {
+        $task = Task::find($request->input('task_id'));
+        if (!$task) {
+            return $this->sendError('Task Error.', 'Task not found');
+        }
+        $task->delete();
+        return $this->sendResponse($task->toArray(), 'Task deleted successfully.');
+    }
+
     public function updateTimer(Request $request)
     {
         $task = Task::find($request->input('task_id'));
