@@ -126,7 +126,7 @@ class TaskApiController extends BaseController
         $task->status = 1;
         $task->timer = $request->input('timer');
         $task->save();
-
+        $this->sendPusher();
         return $this->sendResponse($task->toArray(), 'Task updated successfully.');
     }
 
@@ -141,7 +141,7 @@ class TaskApiController extends BaseController
         $task->timer = $request->input('timer');
         $task->finished = 1;
         $task->save();
-
+        $this->sendPusher();
         return $this->sendResponse($task->toArray(), 'Task finished updated successfully.');
     }
 
