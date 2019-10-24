@@ -3,10 +3,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\AddedTask;
 use App\Http\Controllers\Api\BaseController as BaseController;
 use App\Task;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Validator;
 
 class TaskApiController extends BaseController
@@ -44,7 +46,7 @@ class TaskApiController extends BaseController
         $url = "https://api.telegram.org/bot925882756:AAEt3HsNT_PWsK_bYFzhFqXZUaq34Ayiz0c/sendMessage?chat_id=160868894&text=\"$name\"";
         $response = $client->request('POST', $url);
         $code = $response->getStatusCode();
-
+        event(new AddedTask("task created", "task"));
         return $this->sendResponse($task->toArray(), 'Task created successfully.');
     }
 
