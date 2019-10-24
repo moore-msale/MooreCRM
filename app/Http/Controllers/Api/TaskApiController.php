@@ -57,19 +57,13 @@ class TaskApiController extends BaseController
     public function sendPusher()
     {
         $options = array(
-            'cluster' => env('PUSHER_APP_CLUSTER'),
-            'useTLS' => true
+            'cluster' => 'ap2',
+            'useTLS' => false
         );
-        $pusher = new Pusher(env('PUSHER_APP_KEY'),
-            env('PUSHER_APP_SECRET'),
-            env('PUSHER_APP_ID'),
-            $options);
+        $pusher = new Pusher('88d923159c99cff242b3', '5a9d09dd60899d5e54fc',
+            '886463', $options);
         $data['message'] = 'task created';
-        try {
-            $pusher->trigger('my-channel', 'my-event', $data);
-        } catch (PusherException $e) {
-            Log::debug("error push");
-        }
+        $pusher->trigger('my-channel', 'my-event', $data);
     }
 
     public function show($id)
