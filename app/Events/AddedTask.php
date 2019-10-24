@@ -35,6 +35,6 @@ class AddedTask
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('moorecrm');
+        return ['added-task'];
     }
 }
