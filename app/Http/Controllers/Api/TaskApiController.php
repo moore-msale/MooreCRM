@@ -62,7 +62,7 @@ class TaskApiController extends BaseController
         );
         $pusher = new Pusher('88d923159c99cff242b3', '5a9d09dd60899d5e54fc',
             '886463', $options);
-        $data['message'] = 'task created';
+        $data['message'] = 'task';
         $pusher->trigger('my-channel', 'my-event', $data);
     }
 
