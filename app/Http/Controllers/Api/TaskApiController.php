@@ -54,18 +54,6 @@ class TaskApiController extends BaseController
         return $this->sendResponse($task->toArray(), 'Task created successfully.');
     }
 
-    public function sendPusher()
-    {
-        $options = array(
-            'cluster' => 'ap2',
-            'useTLS' => false
-        );
-        $pusher = new Pusher('88d923159c99cff242b3', '5a9d09dd60899d5e54fc',
-            '886463', $options);
-        $data['message'] = 'task';
-        $pusher->trigger('my-channel', 'my-event', $data);
-    }
-
     public function show($id)
     {
         $task = Task::find($id);
@@ -108,7 +96,7 @@ class TaskApiController extends BaseController
         $task->desc = $input['desc'];
         $task->timer = $input['timer'];
         $task->save();
-
+        $this->sendPusher();
         return $this->sendResponse($task->toArray(), 'Task updated successfully.');
     }
 
@@ -125,6 +113,7 @@ class TaskApiController extends BaseController
             return $this->sendError('Task Error.', 'Task not found');
         }
         $task->delete();
+        $this->sendPusher();
         return $this->sendResponse($task->toArray(), 'Task deleted successfully.');
     }
 
@@ -154,5 +143,17 @@ class TaskApiController extends BaseController
         $task->save();
 
         return $this->sendResponse($task->toArray(), 'Task finished updated successfully.');
+    }
+
+    public function sendPusher()
+    {
+        $options = array(
+            'cluster' => 'ap2',
+            'useTLS' => false
+        );
+        $pusher = new Pusher('88d923159c99cff242b3', '5a9d09dd60899d5e54fc',
+            '886463', $options);
+        $data['message'] = 'task';
+        $pusher->trigger('my-channel', 'my-event', $data);
     }
 }
