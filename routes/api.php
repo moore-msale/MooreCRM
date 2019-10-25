@@ -21,7 +21,7 @@ Route::get('v1/tasks', 'Api\TaskApiController@index');
 Route::post('v1/tasks', 'Api\TaskApiController@store');
 Route::get('v1/tasks/{id}', 'Api\TaskApiController@show');
 Route::post('v1/tasks/{id}', 'Api\TaskApiController@update');
-Route::post('v1/tasks/delete', 'Api\TaskApiController@delete');
+Route::post('v1/tasks/delete', 'Api\TaskApiController@destroy');
 Route::post('v1/update/timer', 'Api\TaskApiController@updateTimer');
 Route::post('v1/task/finished', 'Api\TaskApiController@setFinished');
 /* Auth routes */

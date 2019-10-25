@@ -87,7 +87,7 @@ class TaskApiController extends BaseController
         return $this->sendResponse($task->toArray(), 'Task updated successfully.', "tasks");
     }
 
-    public function delete(Request $request)
+    public function destroy(Request $request)
     {
         $task = Task::find($request->input('task_id'));
         if (!$task) {
