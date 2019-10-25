@@ -70,6 +70,7 @@ class TodoApiController extends BaseController
             return $this->sendError("Todo not found");
         }
         $item->delete();
+        SendNotification::sendPusher("todo");
         return $this->sendResponse($item->toArray(), "Todo deleted", "todo");
     }
 }
