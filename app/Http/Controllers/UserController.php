@@ -32,8 +32,8 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|between:8,255|confirmed',
-            'phone' => 'required|confirmed',
-            'telegram_id' => 'required|confirmed',
+            'phone' => 'required',
+            'telegram_id' => 'required',
         ]);
 
         if ($validator->fails()) {
