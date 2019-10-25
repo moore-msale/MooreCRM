@@ -98,6 +98,7 @@ class TaskApiController extends BaseController
         $task->desc = $input['desc'];
         $task->timer = $input['timer'];
         $task->save();
+
         $this->sendPusher();
         return $this->sendResponse($task->toArray(), 'Task updated successfully.');
     }
