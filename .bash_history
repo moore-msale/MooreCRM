@@ -29,3 +29,31 @@ git pull
 git pull
 git pull
 php artisan jwt:secret
+ls
+php artisan voyager:install
+git pull
+git add .
+git commit -m "fix"
+composer intall
+composer install
+git pull
+composer install
+git pull
+git pull
+git pull
+dir
+exit
+git pull
+git pull
+git pull
+git pull
+git pull
+git pull
+git pull
+git pull
+git pull
+git pull
+git pull
+git pull
+php artisan route:list
+clear
