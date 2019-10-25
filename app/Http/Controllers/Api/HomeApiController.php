@@ -7,9 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Task;
 use App\User;
-use Illuminate\Http\Request;
 use JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTException;
 
 class HomeApiController extends Controller
 {
