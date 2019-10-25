@@ -30,8 +30,6 @@ class TodoApiController extends BaseController
         $input['user_id'] = SendNotification::getUserId();
         $todo = Todo::create($input);
         SendNotification::sendPusher("todo");
-        $user = User::find($input['user_id']);
-        SendNotification::sendBot($user->telegram_id, $input['name']);
         return $this->sendResponse($todo->toArray(), "Todo created successfully", "todo");
     }
 
