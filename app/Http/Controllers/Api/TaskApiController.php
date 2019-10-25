@@ -125,4 +125,10 @@ class TaskApiController extends BaseController
         SendNotification::sendPusher("task");
         return $this->sendResponse($task->toArray(), 'Task finished updated successfully.', "tasks");
     }
+
+    public function getReports(Request $request)
+    {
+        $tasks = Task::where('finished', 1)->get();
+        return $this->sendResponse($tasks->toArray(),'Reports', 'task');
+    }
 }

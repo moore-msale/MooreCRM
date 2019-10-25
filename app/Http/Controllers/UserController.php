@@ -32,6 +32,8 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|between:8,255|confirmed',
+            'phone' => 'required|confirmed',
+            'telegram_id' => 'required|confirmed',
         ]);
 
         if ($validator->fails()) {
@@ -42,6 +44,8 @@ class UserController extends Controller
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
+            'phone' => $request->get('phone'),
+            'telegram_id' => $request->get('telegram_id'),
         ]);
 
         $token = JWTAuth::fromUser($user);
