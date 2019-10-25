@@ -3,14 +3,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Events\AddedTask;
 use App\Http\Controllers\Api\BaseController as BaseController;
 use App\Task;
-use GuzzleHttp\Client;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Pusher\Pusher;
-use Pusher\PusherException;
 use Validator;
 use JWTAuth;
 
@@ -20,14 +15,12 @@ class TaskApiController extends BaseController
     public function index()
     {
         $tasks = Task::all();
-        return $this->sendResponse($tasks->toArray(), 'Tasks retrieved successfully.');
+        return $this->sendResponse($tasks->toArray(), 'Tasks retrieved successfully.', "tasks");
     }
 
     public function store(Request $request)
     {
         $input = $request->all();
-
-        $client = new Client();
 
         $validator = Validator::make($input, [
             'name' => 'required',
@@ -45,12 +38,9 @@ class TaskApiController extends BaseController
 
         $task = Task::create($input);
         $name = $input['name'];
-        $url = "https://api.telegram.org/bot925882756:AAEt3HsNT_PWsK_bYFzhFqXZUaq34Ayiz0c/sendMessage?chat_id=160868894&text=\"$name\"";
-        $response = $client->request('POST', $url);
-        $code = $response->getStatusCode();
-        $this->sendPusher();
-
-        return $this->sendResponse($task->toArray(), 'Task created successfully.');
+        SendNotification::sendPusher("task");
+        SendNotification::sendBot($name);
+        return $this->sendResponse($task->toArray(), 'Task created successfully.', "tasks");
     }
 
     public function show($id)
@@ -61,7 +51,7 @@ class TaskApiController extends BaseController
             return $this->sendError('Task not found.');
         }
 
-        return $this->sendResponse($task->toArray(), 'Task retrieved successfully.');
+        return $this->sendResponse($task->toArray(), 'Task retrieved successfully.', "tasks");
     }
 
     public function update(Request $request, $id)
@@ -93,8 +83,8 @@ class TaskApiController extends BaseController
         $task->desc = $input['desc'];
         $task->save();
 
-        $this->sendPusher();
-        return $this->sendResponse($task->toArray(), 'Task updated successfully.');
+        SendNotification::sendPusher("task");
+        return $this->sendResponse($task->toArray(), 'Task updated successfully.', "tasks");
     }
 
     public function delete(Request $request)
@@ -104,8 +94,8 @@ class TaskApiController extends BaseController
             return $this->sendError('Task Error.', 'Task not found');
         }
         $task->delete();
-        $this->sendPusher();
-        return $this->sendResponse($task->toArray(), 'Task deleted successfully.');
+        SendNotification::sendPusher("task");
+        return $this->sendResponse($task->toArray(), 'Task deleted successfully.', "tasks");
     }
 
     public function updateTimer(Request $request)
@@ -117,8 +107,8 @@ class TaskApiController extends BaseController
         $task->status = 1;
         $task->timer = $request->input('timer');
         $task->save();
-        $this->sendPusher();
-        return $this->sendResponse($task->toArray(), 'Task updated successfully.');
+        SendNotification::sendPusher("task");
+        return $this->sendResponse($task->toArray(), 'Task updated successfully.', "tasks");
     }
 
     public function setFinished(Request $request)
@@ -132,19 +122,7 @@ class TaskApiController extends BaseController
         $task->timer = $request->input('timer');
         $task->finished = 1;
         $task->save();
-        $this->sendPusher();
-        return $this->sendResponse($task->toArray(), 'Task finished updated successfully.');
-    }
-
-    public function sendPusher()
-    {
-        $options = array(
-            'cluster' => 'ap2',
-            'useTLS' => false
-        );
-        $pusher = new Pusher('88d923159c99cff242b3', '5a9d09dd60899d5e54fc',
-            '886463', $options);
-        $data['message'] = 'task';
-        $pusher->trigger('my-channel', 'my-event', $data);
+        SendNotification::sendPusher("task");
+        return $this->sendResponse($task->toArray(), 'Task finished updated successfully.', "tasks");
     }
 }
