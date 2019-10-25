@@ -65,7 +65,7 @@ class TodoApiController extends BaseController
     public function delete(Request $request)
     {
         $todo = Todo::find($request->input('todo_id'));
-        if (is_null($todo)) {
+        if (!$todo) {
             return $this->sendError("Todo not found");
         }
         $todo->delete();
