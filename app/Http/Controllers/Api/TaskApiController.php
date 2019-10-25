@@ -34,11 +34,9 @@ class TaskApiController extends BaseController
             'time' => 'required',
             'status' => 'required',
             'priority' => 'required',
-            'day' => 'required',
             'end_date' => 'required',
             'user_id' => 'required',
             'desc' => 'required',
-            'timer' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -46,7 +44,6 @@ class TaskApiController extends BaseController
         }
 
         $task = Task::create($input);
-
         $name = $input['name'];
         $url = "https://api.telegram.org/bot925882756:AAEt3HsNT_PWsK_bYFzhFqXZUaq34Ayiz0c/sendMessage?chat_id=160868894&text=\"$name\"";
         $response = $client->request('POST', $url);
@@ -77,7 +74,6 @@ class TaskApiController extends BaseController
             'time' => 'required',
             'status' => 'required',
             'priority' => 'required',
-            'day' => 'required',
             'end_date' => 'required',
             'user_id' => 'required',
             'desc' => 'required',
@@ -92,21 +88,13 @@ class TaskApiController extends BaseController
         $task->time = $input['time'];
         $task->status = $input['status'];
         $task->priority = $input['priority'];
-        $task->day = $input['day'];
         $task->end_date = $input['end_date'];
         $task->user_id = $input['user_id'];
         $task->desc = $input['desc'];
-        $task->timer = $input['timer'];
         $task->save();
 
         $this->sendPusher();
         return $this->sendResponse($task->toArray(), 'Task updated successfully.');
-    }
-
-    public function destroy(Task $task)
-    {
-        $task->delete();
-        return $this->sendResponse($task->toArray(), 'Task deleted successfully.');
     }
 
     public function delete(Request $request)
