@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BaseController as BaseController;
 use App\Task;
+use App\User;
 use Illuminate\Http\Request;
 use Validator;
 use JWTAuth;
@@ -39,7 +40,8 @@ class TaskApiController extends BaseController
         $task = Task::create($input);
         $name = $input['name'];
         SendNotification::sendPusher("task");
-        SendNotification::sendBot($name);
+        $user = User::find($input['user_id']);
+        SendNotification::sendBot($user->telegram_id, $name);
         return $this->sendResponse($task->toArray(), 'Task created successfully.', "tasks");
     }
 

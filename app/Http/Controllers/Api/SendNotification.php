@@ -21,7 +21,7 @@ class SendNotification
         $pusher->trigger('my-channel', 'my-event', $data);
     }
 
-    public static function sendBot($name)
+    public static function sendBot($chat_id, $text)
     {
         $client = new Client();
         $url = "https://api.telegram.org/bot925882756:AAEt3HsNT_PWsK_bYFzhFqXZUaq34Ayiz0c/sendMessage?chat_id=160868894&text=\"$name\"";
