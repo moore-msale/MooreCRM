@@ -62,7 +62,7 @@ class TodoApiController extends BaseController
         return $this->sendResponse($todo->toArray(), "Todo successfully updated", "todo");
     }
 
-    public function delete(Request $request)
+    public function destroy(Request $request)
     {
         $id = $request->input('id');
         $item = Todo::where('id', $id)->get();
