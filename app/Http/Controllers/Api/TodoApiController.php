@@ -26,6 +26,7 @@ class TodoApiController extends BaseController
         if ($validator->fails()) {
             $this->sendError("Validation error", $validator->errors());
         }
+        $input['user_id'] = SendNotification::getUserId();
         $todo = Todo::create($input);
         SendNotification::sendPusher("todo");
         return $this->sendResponse($todo->toArray(), "Todo created successfully", "todo");
