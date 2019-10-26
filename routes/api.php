@@ -39,6 +39,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('/v1/todo/{id}', 'Api\TodoApiController@show');
     Route::post('/v1/todo/{id}', 'Api\TodoApiController@update');
     Route::post('/v1/todos/delete', 'Api\TodoApiController@destroy');
+    Route::post('/v1/todos/finished', 'Api\TodoApiController@setFinished');
     /*** Reports routes **/
     Route::get('/v1/reports', 'Api\TaskApiController@getReports');
 });

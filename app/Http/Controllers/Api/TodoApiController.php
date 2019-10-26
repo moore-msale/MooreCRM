@@ -74,4 +74,15 @@ class TodoApiController extends BaseController
         SendNotification::sendPusher("todo");
         return $this->sendResponse($item->toArray(), "Todo deleted", "todo");
     }
+
+    public function setFinished(Request $request)
+    {
+        $todo = Todo::find($request->input('todo_id'));
+        if (!$todo) {
+            return $this->sendError("Todo not found");
+        }
+        $todo->finished = 1;
+        $todo->save();
+        return $this->sendResponse($todo->toArray(), "Todo finished", "todo");
+    }
 }
