@@ -30,7 +30,6 @@ class TaskApiController extends BaseController
             'priority' => 'required',
             'end_date' => 'required',
             'user_id' => 'required',
-            'desc' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -42,7 +41,7 @@ class TaskApiController extends BaseController
         $desc = $input['desc'];
         SendNotification::sendPusher("task");
         $user = User::find($input['user_id']);
-        $txt = "Задача: ".$name."<br>Описание: ".$desc;
+        $txt = "Задача: ".$name.PHP_EOL."Описание: ".$desc;
         SendNotification::sendBot($user->telegram_id, $txt);
         return $this->sendResponse($task->toArray(), 'Task created successfully.', "tasks");
     }
@@ -70,7 +69,6 @@ class TaskApiController extends BaseController
             'priority' => 'required',
             'end_date' => 'required',
             'user_id' => 'required',
-            'desc' => 'required',
             'timer' => 'required',
         ]);
 
