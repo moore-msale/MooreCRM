@@ -15,7 +15,7 @@ class TaskApiController extends BaseController
 {
     public function index()
     {
-        $tasks = Task::all();
+        $tasks = Task::all()->orderBy('id', 'desc');
         return $this->sendResponse($tasks->toArray(), 'Tasks retrieved successfully.', "tasks");
     }
 

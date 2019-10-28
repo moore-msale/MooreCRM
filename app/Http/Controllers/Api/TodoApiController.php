@@ -13,7 +13,7 @@ class TodoApiController extends BaseController
     public function index()
     {
         $user_id = SendNotification::getUserId();
-        $todos = Todo::where('user_id', $user_id)->get();
+        $todos = Todo::where('user_id', $user_id)->orderBy('id', 'desc')->get();
         return $this->sendResponse($todos->toArray(), "Todo retrieved successfully.", "todo");
     }
 
