@@ -31,7 +31,7 @@ class HomeApiController extends Controller
             return response()->json(['token_absent'], $e->getStatusCode());
         }
         $id = $user['id'];
-        $tasks = Task::where('user_id', $id)->where('finished', '!=', 1)->get();
+        $tasks = Task::where('user_id', $id)->where('finished', '!=', 1)->orderBy('id', 'desc')->get();
         return response()->json(compact('tasks'));
     }
 
@@ -49,7 +49,7 @@ class HomeApiController extends Controller
             return response()->json(['token_absent'], $e->getStatusCode());
         }
         $id = $user['id'];
-        $tasks = Task::where('user_id', $id)->where('finished', 1)->get();
+        $tasks = Task::where('user_id', $id)->where('finished', 1)->orderBy('id', 'desc')->get();
         return response()->json(compact('tasks'));
     }
 }
