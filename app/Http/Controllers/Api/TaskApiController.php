@@ -39,9 +39,11 @@ class TaskApiController extends BaseController
 
         $task = Task::create($input);
         $name = $input['name'];
+        $desc = $input['desc'];
         SendNotification::sendPusher("task");
         $user = User::find($input['user_id']);
-        SendNotification::sendBot($user->telegram_id, $name);
+        $txt = "Задача: " + $name + "\n Описание:" + $desc;
+        SendNotification::sendBot($user->telegram_id, $txt);
         return $this->sendResponse($task->toArray(), 'Task created successfully.', "tasks");
     }
 
@@ -84,7 +86,6 @@ class TaskApiController extends BaseController
         $task->user_id = $input['user_id'];
         $task->desc = $input['desc'];
         $task->save();
-
         SendNotification::sendPusher("task");
         return $this->sendResponse($task->toArray(), 'Task updated successfully.', "tasks");
     }
