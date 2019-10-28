@@ -42,7 +42,7 @@ class TaskApiController extends BaseController
         $desc = $input['desc'];
         SendNotification::sendPusher("task");
         $user = User::find($input['user_id']);
-        $txt = "Задача: ".$name."\n Описание: ".$desc;
+        $txt = "Задача: ".$name.PHP_EOL."Описание: ".$desc;
         SendNotification::sendBot($user->telegram_id, $txt);
         return $this->sendResponse($task->toArray(), 'Task created successfully.', "tasks");
     }
