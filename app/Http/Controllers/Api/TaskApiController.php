@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Api\BaseController as BaseController;
 use App\Task;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
 use JWTAuth;
@@ -122,6 +123,7 @@ class TaskApiController extends BaseController
         $task->comment = $request->input('comment');
         $task->timer = $request->input('timer');
         $task->finished = 1;
+        $task->finish_date = Carbon::now();
         $task->save();
         SendNotification::sendPusher("task");
         return $this->sendResponse($task->toArray(), 'Task finished updated successfully.', "tasks");
