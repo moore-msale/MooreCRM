@@ -22,6 +22,10 @@ class UserController extends Controller
         } catch (JWTException $e) {
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
+        
+        $user = User::where('email',$credentials['email'])->first();
+        $user->status = 'online';
+        $user->save();
 
         return response()->json(compact('token'));
     }

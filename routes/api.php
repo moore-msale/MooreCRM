@@ -16,6 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+/*Status routes */
+Route::get('user/offline/{id}', 'Api\UserStatusController@statusOffline');
 /* Task routes */
 Route::get('v1/tasks', 'Api\TaskApiController@index');
 Route::post('v1/tasks', 'Api\TaskApiController@store');
